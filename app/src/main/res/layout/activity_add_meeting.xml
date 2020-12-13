@@ -30,25 +30,36 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
                 android:gravity="center"
-                android:text="Veuillez remplir les informations suivantes afin d'ajouter une nouvelle réunion :"
+                android:text="@string/add_meeeting_title_text_view"
                 android:textColor="@color/black"
                 android:textSize="20sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
-
-            <EditText
-                android:id="@+id/topic_edit_text"
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/topic_text_input_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:layout_marginStart="16dp"
-                android:layout_marginEnd="16dp"
-                android:hint="Sujet de la réunion"
+                app:boxBackgroundColor="@color/white"
+                app:counterEnabled="true"
+                app:counterMaxLength="20"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/add_meeting_textview" />
+                app:layout_constraintTop_toBottomOf="@id/add_meeting_textview">
+
+                <EditText
+                    android:id="@+id/topic_edit_text"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="16dp"
+                    android:layout_marginEnd="16dp"
+                    android:hint="@string/topic_edit_text_hint"
+                    android:maxLength="20"
+                    />
+
+            </com.google.android.material.textfield.TextInputLayout>
 
             <TextView
                 android:id="@+id/select_date_text_view"
@@ -57,12 +68,12 @@
                 android:layout_gravity="center"
                 android:layout_marginTop="16dp"
                 android:layout_weight="1"
-                android:text="Selectionnez une date et une heure :"
+                android:text="@string/select_date_text_view_string"
                 android:textColor="@color/black"
                 android:textSize="14sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/topic_edit_text" />
+                app:layout_constraintTop_toBottomOf="@+id/topic_text_input_layout" />
 
 
             <DatePicker
@@ -95,7 +106,7 @@
                 android:layout_height="0dp"
                 android:layout_gravity="center"
                 android:layout_weight="1"
-                android:text="Selectionnez une salle :"
+                android:text="@string/select_meetingroom_text_view_string"
                 android:textColor="@color/black"
                 android:textSize="14sp"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -118,7 +129,7 @@
                 android:layout_gravity="center"
                 android:layout_marginTop="16dp"
                 android:layout_weight="1"
-                android:text="Ajoutez des participants :"
+                android:text="@string/add_ppl_text_view_string"
                 android:textColor="@color/black"
                 android:textSize="14sp"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -130,9 +141,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
-                android:layout_marginEnd="16dp"
                 android:layout_marginTop="16dp"
-                android:hint="Adresse mail "
+                android:layout_marginEnd="16dp"
+                android:hint="@string/mail_edit_text_hint"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/add_ppl_text_view" />

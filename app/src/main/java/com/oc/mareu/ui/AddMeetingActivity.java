@@ -2,32 +2,20 @@ package com.oc.mareu.ui;
 
 import android.app.Activity;
 import android.app.AlertDialog;
-import android.app.AlertDialog.Builder;
-import android.app.DatePickerDialog;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.res.Resources;
 import android.graphics.Color;
 import android.os.Bundle;
 
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.android.material.snackbar.Snackbar;
-
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
 import androidx.core.app.ActivityCompat;
-import androidx.fragment.app.FragmentActivity;
 
 import android.util.Log;
-import android.view.View;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
-import android.widget.NumberPicker;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
@@ -35,18 +23,11 @@ import com.oc.mareu.DI.DI;
 import com.oc.mareu.R;
 import com.oc.mareu.model.Meeting;
 import com.oc.mareu.model.MeetingRoom;
-import com.oc.mareu.service.DummyMeetingApiService;
 import com.oc.mareu.service.MeetingApiService;
-import com.oc.mareu.service.MeetingRoomGenerator;
 
-import java.sql.Time;
-import java.sql.Timestamp;
-import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
-import java.util.GregorianCalendar;
 import java.util.List;
-import java.util.TimeZone;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -64,6 +45,8 @@ public class AddMeetingActivity extends AppCompatActivity {
     TimePicker mTimePicker;
     @BindView(R.id.mail_edit_text)
     EditText mailEditText;
+    @BindView(R.id.add_meeting_textview)
+    TextView addMeetingTextView;
 
     private final MeetingApiService mMeetingApiService = DI.getMeetingService();
     List<MeetingRoom> meetingRooms = mMeetingApiService.getMeetingRooms();
@@ -103,9 +86,6 @@ public class AddMeetingActivity extends AppCompatActivity {
 
     // Get TimePicker values
     public String retrieveTime() {
-
-        //int hour = mTimePicker.getHour();
-       // int minute = mTimePicker.getMinute();
         String hour = mTimePicker.getCurrentHour().toString();
         if(mTimePicker.getCurrentHour() < 10 ){
             hour = "0" + hour;
@@ -120,11 +100,13 @@ public class AddMeetingActivity extends AppCompatActivity {
         return time;
     }
 
+    // Setup MeetingRoom spinner
     public void setupSpinner(){
         ArrayAdapter roomAdapter = new ArrayAdapter(this, R.layout.spinner , meetingRooms);
         mSpinner.setAdapter(roomAdapter);
     }
 
+    // Open an AlertDialog
     @OnClick(R.id.confirm_button)
     void getNewMeetingData() {
         if(!(mailEditText.getText().toString().isEmpty()) && !(topicEditText.getText().toString().isEmpty())) {
@@ -156,7 +138,6 @@ public class AddMeetingActivity extends AppCompatActivity {
             dialog.getButton(AlertDialog.BUTTON_POSITIVE).setTextColor(Color.BLACK);
             dialog.getButton(AlertDialog.BUTTON_NEGATIVE).setBackgroundColor(Color.WHITE);
             dialog.getButton(AlertDialog.BUTTON_NEGATIVE).setTextColor(Color.BLACK);
-
         } else {
             Toast.makeText(this, "Veuillez renseigner toutes les informations", Toast.LENGTH_SHORT).show();
         }

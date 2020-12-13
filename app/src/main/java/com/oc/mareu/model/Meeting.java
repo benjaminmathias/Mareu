@@ -8,19 +8,20 @@ import java.util.Objects;
 
 public class Meeting {
 
+    /** Hour and minute */
     private String time;
 
+    /** Day */
     private String date;
 
+    /** Topic */
     private String topic;
 
+    /** Emails */
     private String emails;
 
+    /** MeetingRoom object */
     private MeetingRoom mMeetingRooms;
-
-    public Meeting(){
-
-    }
 
     public Meeting(String time, String date, String topic, String emails, MeetingRoom meetingRooms) {
         this.time = time;

@@ -1,8 +1,17 @@
 <resources>
     <string name="app_name">Ma réu</string>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="title_activity_add_meeting">AddMeetingActivity</string>
+    <string name="title_activity_add_meeting">Ajouter une réunion</string>
 
+    <!-- Layout strings -->
+    <!-- AddMeetingActivity -->
+    <string name="add_meeeting_title_text_view">Veuillez remplir les informations suivantes afin d\'ajouter une nouvelle réunion :</string>
+    <string name="topic_edit_text_hint">Sujet de la réunion</string>
+    <string name="select_date_text_view_string">Selectionnez une date et une heure :</string>
+    <string name="select_meetingroom_text_view_string">Selectionnez une salle :</string>
+    <string name="add_ppl_text_view_string">Ajoutez des participants :</string>
+    <string name="mail_edit_text_hint">Adresse mail</string>
+
+    <!-- Used for spinner -->
     <string-array name="room_name">
         <item>Salle 1</item>
         <item>Salle 2</item>
@@ -15,5 +24,4 @@
         <item>Salle 9</item>
         <item>Salle 10</item>
     </string-array>
-
 </resources>

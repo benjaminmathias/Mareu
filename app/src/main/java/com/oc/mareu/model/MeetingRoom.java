@@ -1,21 +1,27 @@
 package com.oc.mareu.model;
 
-import android.os.Parcel;
-import android.os.Parcelable;
 
 import java.util.Objects;
 
+/**
+ * Model object representing a MeetingRoom
+ */
 public class MeetingRoom {
 
+    /**
+     * Name of the room
+     */
     private String name;
 
+    /**
+     * Color
+     */
     private int backgroundColor;
 
+    /**
+     * Displayed name
+     */
     private String displayedName;
-
-    public MeetingRoom() {
-
-    }
 
     public MeetingRoom(String name, int backgroundColor, String displayedName) {
         this.name = name;

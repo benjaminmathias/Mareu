@@ -1,52 +1,38 @@
 package com.oc.mareu.ui;
 
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.AlertDialog;
-import android.app.AlertDialog.Builder;
 import android.app.DatePickerDialog;
-import android.app.Dialog;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.DatePicker;
 import android.widget.Spinner;
-import android.widget.Toast;
 
 import com.oc.mareu.DI.DI;
 import com.oc.mareu.R;
 import com.oc.mareu.model.Meeting;
 import com.oc.mareu.model.MeetingRoom;
-import com.oc.mareu.service.DummyMeetingApiService;
 import com.oc.mareu.service.MeetingApiService;
 
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import butterknife.Optional;
 
 public class MainActivity extends AppCompatActivity {
 
     @BindView(R.id.recycler_view)
     RecyclerView mRecyclerView;
-
 
     private List<Meeting> mMeetings;
     private List<MeetingRoom> mMeetingRooms;
@@ -61,8 +47,6 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
-
-
 
         mMeetingApiService = DI.getMeetingService();
         setupRecyclerView();
@@ -151,14 +135,13 @@ public class MainActivity extends AppCompatActivity {
 
 
     private void setupMeetingRoomFilter() {
-
         AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
         View dialogView = getLayoutInflater().inflate(R.layout.meetingroom_filter_dialog, null);
         Spinner mSpinner = dialogView.findViewById(R.id.meeting_room_filter_spinner);
 
         mMeetingRooms = mMeetingApiService.getMeetingRooms();
 
-        ArrayAdapter roomAdapter = new ArrayAdapter(this, R.layout.spinner , mMeetingRooms);
+        ArrayAdapter roomAdapter = new ArrayAdapter(this, R.layout.spinner, mMeetingRooms);
         mSpinner.setAdapter(roomAdapter);
         builder.setView(dialogView)
                 .setTitle("Sélectionnez une salle de réunion :")
@@ -166,7 +149,6 @@ public class MainActivity extends AppCompatActivity {
                     @Override
                     public void onClick(DialogInterface dialog, int position) {
                         MeetingRoom selectedRoom = mMeetingRooms.get(mSpinner.getSelectedItemPosition());
-
                         mMeetings = mMeetingApiService.meetingRoomFilter(selectedRoom);
                         mAdapter = new MeetingRecyclerViewAdapter(mMeetings);
                         mRecyclerView.setAdapter(mAdapter);
@@ -178,9 +160,13 @@ public class MainActivity extends AppCompatActivity {
                     public void onClick(DialogInterface dialog, int which) {
 
                     }
-                })
-                .create()
-                .show();
+                });
+        AlertDialog dialog = builder.create();
+        dialog.show();
+        dialog.getButton(AlertDialog.BUTTON_POSITIVE).setBackgroundColor(Color.WHITE);
+        dialog.getButton(AlertDialog.BUTTON_POSITIVE).setTextColor(Color.BLACK);
+        dialog.getButton(AlertDialog.BUTTON_NEGATIVE).setBackgroundColor(Color.WHITE);
+        dialog.getButton(AlertDialog.BUTTON_NEGATIVE).setTextColor(Color.BLACK);
     }
 
 }

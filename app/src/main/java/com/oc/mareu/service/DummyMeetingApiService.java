@@ -8,33 +8,53 @@ import java.util.List;
 
 public class DummyMeetingApiService implements MeetingApiService {
 
-
     private List<Meeting> mMeetingList = DummyMeetingGenerator.generateMeetings();
     private List<MeetingRoom> mMeetingRoom = MeetingRoomGenerator.generateMeetingRooms();
     private static List<Meeting> MEETING_LIST = new ArrayList<>();
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public List<Meeting> getMeetings() {
         return mMeetingList;
     }
 
+    /**
+     * {@inheritDoc}
+     *
+     * @param meeting
+     */
     @Override
     public void deleteMeeting(Meeting meeting) {
         mMeetingList.remove(meeting);
     }
 
+    /**
+     * {@inheritDoc}
+     *
+     * @param meeting
+     */
     @Override
     public void addMeeting(Meeting meeting) {
         mMeetingList.add(meeting);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public List<MeetingRoom> getMeetingRooms() {
         return mMeetingRoom;
     }
 
+    /**
+     * {@inheritDoc}
+     * @param date
+     * @return
+     */
     public List<Meeting> dateFilter(String date) {
 
-       MEETING_LIST = mMeetingList;
+        MEETING_LIST = mMeetingList;
 
         List<Meeting> dateFilterList = new ArrayList<>();
 
@@ -43,10 +63,14 @@ public class DummyMeetingApiService implements MeetingApiService {
                 dateFilterList.add(DummyMeetingApiService.MEETING_LIST.get(i));
             }
         }
-
         return dateFilterList;
     }
 
+    /**
+     * {@inheritDoc}
+     * @param meetingRoom
+     * @return {@link List}
+     */
     @Override
     public List<Meeting> meetingRoomFilter(MeetingRoom meetingRoom) {
 
@@ -59,7 +83,6 @@ public class DummyMeetingApiService implements MeetingApiService {
                 meetingRoomFilterList.add(DummyMeetingApiService.MEETING_LIST.get(i));
             }
         }
-
         return meetingRoomFilterList;
     }
 

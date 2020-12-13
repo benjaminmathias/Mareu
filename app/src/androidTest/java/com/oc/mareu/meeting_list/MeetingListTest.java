@@ -11,22 +11,15 @@ import androidx.test.runner.AndroidJUnit4;
 
 import com.oc.mareu.DI.DI;
 import com.oc.mareu.R;
-import com.oc.mareu.model.Meeting;
-import com.oc.mareu.model.MeetingRoom;
-import com.oc.mareu.service.DummyMeetingApiService;
 import com.oc.mareu.service.DummyMeetingGenerator;
 import com.oc.mareu.service.MeetingApiService;
 import com.oc.mareu.ui.MainActivity;
 import com.oc.mareu.utils.DeleteViewAction;
 
-import org.hamcrest.Matchers;
-import org.junit.After;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-
-import java.util.List;
 
 import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.action.ViewActions.click;
@@ -35,10 +28,8 @@ import static androidx.test.espresso.assertion.ViewAssertions.matches;
 import static androidx.test.espresso.matcher.RootMatchers.isDialog;
 import static androidx.test.espresso.matcher.ViewMatchers.isAssignableFrom;
 import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
-import static androidx.test.espresso.matcher.ViewMatchers.withClassName;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
-import static androidx.test.platform.app.InstrumentationRegistry.getInstrumentation;
 import static com.oc.mareu.utils.RecyclerViewItemCountAssertion.withItemCount;
 import static org.hamcrest.core.IsNull.notNullValue;
 
@@ -50,7 +41,8 @@ import static org.junit.Assert.*;
 @RunWith(AndroidJUnit4.class)
 public class MeetingListTest {
 
-    private static int ITEMS_COUNT = 0;
+    // Number of item in our RecyclerView
+    private static int ITEMS_COUNT = 4;
 
     private MainActivity mActivity;
     MeetingApiService mApiService;
@@ -60,20 +52,23 @@ public class MeetingListTest {
             new ActivityTestRule(MainActivity.class);
 
     @Before
-    public void setUp(){
+    public void setUp() {
         mActivity = mActivityTestRule.getActivity();
         assertThat(mActivity, notNullValue());
 
         mApiService = DI.getMeetingService();
         mApiService.getMeetings().clear();
-
+        mApiService.getMeetings().add(DummyMeetingGenerator.DUMMY_MEETING.get(0));
+        mApiService.getMeetings().add(DummyMeetingGenerator.DUMMY_MEETING.get(1));
+        mApiService.getMeetings().add(DummyMeetingGenerator.DUMMY_MEETING.get(2));
+        mApiService.getMeetings().add(DummyMeetingGenerator.DUMMY_MEETING.get(3));
     }
 
     /**
      * We ensure that our recyclerview is displaying at least one item
      */
     @Test
-    public void myMeetingList_shouldBeEmpty(){
+    public void myMeetingList_shouldBeEmpty() {
         onView(withId(R.id.recycler_view))
                 .check(matches(ViewMatchers.hasMinimumChildCount(0)));
     }
@@ -82,30 +77,21 @@ public class MeetingListTest {
      * When we delete an item, the item is no more shown
      */
     @Test
-    public void myMeetingList_deleteAction_shouldRemoveItem(){
+    public void myMeetingList_deleteAction_shouldRemoveItem() {
         // Given : We remove the element at position 1
         onView(withId(R.id.recycler_view)).check(withItemCount(ITEMS_COUNT));
-        // Given : we add 1 element to the list
-        onView(withId(R.id.add_meeting)).perform(click());
-        // When add meeting activity is opened
-        onView(withId(R.id.topic_edit_text)).perform(replaceText("test"));
-        onView(withId(R.id.mail_edit_text)).perform(replaceText("test"));
-        // We confirm the meeting
-        onView(withId(R.id.confirm_button)).perform(click());
-        // We access the AlertDialog to confirm
-        onView(withText("Confirmer réunion")).inRoot(isDialog()).check(matches(isDisplayed())).perform(click());
         // When perform a click on a delete icon
         onView(withId(R.id.recycler_view))
                 .perform(RecyclerViewActions.actionOnItemAtPosition(0, new DeleteViewAction()));
         // Then : the number of element is 3
-        onView(withId(R.id.recycler_view)).check(withItemCount(ITEMS_COUNT));
+        onView(withId(R.id.recycler_view)).check(withItemCount(ITEMS_COUNT - 1));
     }
 
     /**
      * When we click on the FAB, open the AddMeetingActivity
      */
     @Test
-    public void myMainActivityFAB_clickAction_shouldOpenAddMeetingActivity(){
+    public void myMainActivityFAB_clickAction_shouldOpenAddMeetingActivity() {
         // When perform click on a element
         onView(withId(R.id.add_meeting))
                 .perform(click());
@@ -113,8 +99,11 @@ public class MeetingListTest {
         onView(withId(R.id.add_meeting_activity)).check(matches(isDisplayed()));
     }
 
+    /**
+     * We ensure that our RecyclerView display newly added meetings
+     */
     @Test
-    public void checkIf_myMeetingList_displayAddedMeetings(){
+    public void checkIf_myMeetingList_displayAddedMeetings() {
         // Given : we add 1 element to the list
         onView(withId(R.id.add_meeting)).perform(click());
         // When add meeting activity is opened
@@ -125,11 +114,14 @@ public class MeetingListTest {
         // We access the AlertDialog to confirm
         onView(withText("Confirmer réunion")).inRoot(isDialog()).check(matches(isDisplayed())).perform(click());
         // Then : the number of item in our list is 5
-        onView(withId(R.id.recycler_view)).check(withItemCount(ITEMS_COUNT+1));
+        onView(withId(R.id.recycler_view)).check(withItemCount(ITEMS_COUNT + 1));
     }
 
+    /**
+     * We ensure that our RecyclerView dateFilter works
+     */
     @Test
-    public void myMeetingList_clickToolbarAction_shouldDisplayDateFilteredList(){
+    public void myMeetingList_clickToolbarAction_shouldDisplayDateFilteredList() {
         // Given : check that we have 4 initial meetings
         onView(withId(R.id.recycler_view)).check(withItemCount(ITEMS_COUNT));
         // We add a new meeting to a different date
@@ -143,7 +135,7 @@ public class MeetingListTest {
         // We access the AlertDialog to confirm
         onView(withText("Confirmer réunion")).inRoot(isDialog()).check(matches(isDisplayed())).perform(click());
         // We check that our meeting is added
-        onView(withId(R.id.recycler_view)).check(withItemCount(ITEMS_COUNT+1));
+        onView(withId(R.id.recycler_view)).check(withItemCount(ITEMS_COUNT + 1));
         // When : we click on the toolbar and select a date
         onView(withId(R.id.filter_item)).perform(click());
         onView(ViewMatchers.withText("Filtrer par date")).perform(click());
@@ -153,11 +145,13 @@ public class MeetingListTest {
         onView(withId(R.id.recycler_view)).check(withItemCount(1));
     }
 
+    /**
+     * We ensure that our RecyclerView roomFilter works
+     */
     @Test
-    public void myMeetingList_clickToolbarAction_shouldDisplayRoomFilteredList(){
+    public void myMeetingList_clickToolbarAction_shouldDisplayRoomFilteredList() {
         // Given : check that we have 4 initial meetings with 4 different rooms
         onView(withId(R.id.recycler_view)).check(withItemCount(ITEMS_COUNT));
-        mApiService.getMeetings().add(DummyMeetingGenerator.DUMMY_MEETING.get(1));
         // When : we click on the toolbar to filter by meeting room
         onView(withId(R.id.filter_item)).perform(click());
         onView(ViewMatchers.withText("Filtrer par lieu")).perform(click());
@@ -169,11 +163,13 @@ public class MeetingListTest {
         onView(withId(R.id.recycler_view)).check(withItemCount(1));
     }
 
+    /**
+     * We ensure that we can remove filters
+     */
     @Test
-    public void myMeetingList_clickToolbarAction_shouldDisplayNoFilteredList(){
+    public void myMeetingList_clickToolbarAction_shouldDisplayNoFilteredList() {
         // Given : check that we have 4 initial meetings with 4 different rooms
         onView(withId(R.id.recycler_view)).check(withItemCount(ITEMS_COUNT));
-        mApiService.getMeetings().add(DummyMeetingGenerator.DUMMY_MEETING.get(1));
         // When : we click on the toolbar to filter by meeting room
         onView(withId(R.id.filter_item)).perform(click());
         onView(ViewMatchers.withText("Filtrer par lieu")).perform(click());
@@ -187,8 +183,7 @@ public class MeetingListTest {
         onView(withId(R.id.filter_item)).perform(click());
         onView(ViewMatchers.withText("Retirer le filtre")).perform(click());
         // Then : Our RecyclerView contain all items
-        onView(withId(R.id.recycler_view)).check(withItemCount(1));
-
+        onView(withId(R.id.recycler_view)).check(withItemCount(ITEMS_COUNT));
     }
 
 }

@@ -20,6 +20,7 @@ import com.oc.mareu.DI.DI;
 import com.oc.mareu.R;
 import com.oc.mareu.model.Meeting;
 import com.oc.mareu.model.MeetingRoom;
+import com.oc.mareu.service.DummyMeetingGenerator;
 import com.oc.mareu.service.MeetingApiService;
 
 import java.util.Calendar;
@@ -49,15 +50,24 @@ public class MainActivity extends AppCompatActivity {
         ButterKnife.bind(this);
 
         mMeetingApiService = DI.getMeetingService();
+        if (mMeetingApiService.getMeetings().size() > 4) {
+            mMeetingApiService.getMeetings().clear();
+            mMeetingApiService.getMeetings().add(DummyMeetingGenerator.DUMMY_MEETING.get(0));
+            mMeetingApiService.getMeetings().add(DummyMeetingGenerator.DUMMY_MEETING.get(1));
+            mMeetingApiService.getMeetings().add(DummyMeetingGenerator.DUMMY_MEETING.get(2));
+            mMeetingApiService.getMeetings().add(DummyMeetingGenerator.DUMMY_MEETING.get(3));
+        } else {
+            mMeetingApiService = DI.getNewInstanceApiService();
+        }
         setupRecyclerView();
-
         mOnDateSetListener = setupDatePickerDialog();
     }
 
     @Override
-    public void onResume() {
-        super.onResume();
-        mAdapter.notifyDataSetChanged();
+    public void onRestart() {
+        super.onRestart();
+        mMeetingApiService = DI.getMeetingService();
+        setupRecyclerView();
     }
 
     private void setupRecyclerView() {

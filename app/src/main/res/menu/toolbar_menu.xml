@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/filter_item"
+        android:icon="@drawable/ic_baseline_menu_24"
+        android:orderInCategory="200"
+        android:title="Filter Item"
+        app:showAsAction="always">
+
+        <menu>
+
+            <item
+                android:id="@+id/date_filter_menu"
+                android:title="Filtrer par date" />
+            <item
+                android:id="@+id/meetingroom_filter_menu"
+                android:title="Filtrer par lieu" />
+            <item
+                android:id="@+id/remove_filter_menu"
+                android:title="Retirer le filtre" />
+
+        </menu>
+    </item>
+</menu>

@@ -72,20 +72,6 @@ public class AddMeetingActivity extends AppCompatActivity {
         setupSpinner();
     }
 
-    @OnClick(R.id.add_ppl_img)
-    void displayEditText2(){
-        mailEditText2.setVisibility(View.VISIBLE);
-        addMailImageButton2.setVisibility(View.VISIBLE);
-    }
-
-    @OnClick(R.id.add_ppl_img2)
-    void displayEditText3(){
-        mailEditText3.setVisibility(View.VISIBLE);
-    }
-
-
-
-
     // Initialize pickers to current time and date
     public void setupPicker() {
         Calendar c = Calendar.getInstance();
@@ -123,6 +109,24 @@ public class AddMeetingActivity extends AppCompatActivity {
 
         String time = hour + ":" + minute;
         return time;
+    }
+
+    // Build a String containing mails
+    public String mailString(){
+
+        String mailString2 = "";
+        String mailString3 = "";
+
+        String mailString1 = mailEditText.getText().toString();
+        if (mailEditText2.isShown()){
+            mailString2 = ", " + mailEditText2.getText().toString();
+        }
+        if (mailEditText3.isShown()){
+            mailString3 =", " + mailEditText3.getText().toString();
+        }
+
+        String mailString = mailString1 + mailString2 + mailString3;
+        return mailString;
     }
 
     // Setup MeetingRoom spinner
@@ -168,21 +172,15 @@ public class AddMeetingActivity extends AppCompatActivity {
         }
     }
 
-    public String mailString(){
+    @OnClick(R.id.add_ppl_img)
+    void displayEditText2(){
+        mailEditText2.setVisibility(View.VISIBLE);
+        addMailImageButton2.setVisibility(View.VISIBLE);
+    }
 
-        String mailString2 = "";
-        String mailString3 = "";
-
-        String mailString1 = mailEditText.getText().toString();
-        if (mailEditText2.isShown()){
-            mailString2 = ", " + mailEditText2.getText().toString();
-        }
-        if (mailEditText3.isShown()){
-            mailString3 =", " + mailEditText3.getText().toString();
-        }
-
-        String mailString = mailString1 + mailString2 + mailString3;
-        return mailString;
+    @OnClick(R.id.add_ppl_img2)
+    void displayEditText3(){
+        mailEditText3.setVisibility(View.VISIBLE);
     }
 
     public static void navigate(Activity activity) {

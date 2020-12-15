@@ -11,6 +11,11 @@
     <string name="add_ppl_text_view_string">Ajoutez des participants :</string>
     <string name="mail_edit_text_hint">Adresse mail</string>
 
+    <!-- Menu string -->
+    <string name="filter_item_menu">Filter Item</string>
+    <string name="date_filter_menu">Filtrer par date</string>
+    <string name="room_filter_menu">Filtrer par lieu</string>
+    <string name="remove_filter_menu">Retirer le filtre</string>
     <!-- Used for spinner -->
     <string-array name="room_name">
         <item>Salle 1</item>

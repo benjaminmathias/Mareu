@@ -4,22 +4,22 @@
 
     <item
         android:id="@+id/filter_item"
-        android:icon="@drawable/ic_baseline_menu_24"
+        android:icon="@drawable/ic_baseline_filter_list"
         android:orderInCategory="200"
-        android:title="Filter Item"
+        android:title="@string/filter_item_menu"
         app:showAsAction="always">
 
         <menu>
 
             <item
                 android:id="@+id/date_filter_menu"
-                android:title="Filtrer par date" />
+                android:title="@string/date_filter_menu" />
             <item
                 android:id="@+id/meetingroom_filter_menu"
-                android:title="Filtrer par lieu" />
+                android:title="@string/room_filter_menu" />
             <item
                 android:id="@+id/remove_filter_menu"
-                android:title="Retirer le filtre" />
+                android:title="@string/remove_filter_menu" />
 
         </menu>
     </item>

@@ -11,9 +11,11 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 
 import android.util.Log;
+import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.TimePicker;
@@ -43,10 +45,19 @@ public class AddMeetingActivity extends AppCompatActivity {
     DatePicker mDatePicker;
     @BindView(R.id.timePicker1)
     TimePicker mTimePicker;
-    @BindView(R.id.mail_edit_text)
-    EditText mailEditText;
+
     @BindView(R.id.add_meeting_textview)
     TextView addMeetingTextView;
+    @BindView(R.id.add_ppl_img)
+    ImageButton addMailImageButton;
+    @BindView(R.id.add_ppl_img2)
+    ImageButton addMailImageButton2;
+    @BindView(R.id.mail_edit_text)
+    EditText mailEditText;
+    @BindView(R.id.mail_edit_text2)
+    EditText mailEditText2;
+    @BindView(R.id.mail_edit_text3)
+    EditText mailEditText3;
 
     private final MeetingApiService mMeetingApiService = DI.getMeetingService();
     List<MeetingRoom> meetingRooms = mMeetingApiService.getMeetingRooms();
@@ -60,6 +71,20 @@ public class AddMeetingActivity extends AppCompatActivity {
         setupPicker();
         setupSpinner();
     }
+
+    @OnClick(R.id.add_ppl_img)
+    void displayEditText2(){
+        mailEditText2.setVisibility(View.VISIBLE);
+        addMailImageButton2.setVisibility(View.VISIBLE);
+    }
+
+    @OnClick(R.id.add_ppl_img2)
+    void displayEditText3(){
+        mailEditText3.setVisibility(View.VISIBLE);
+    }
+
+
+
 
     // Initialize pickers to current time and date
     public void setupPicker() {
@@ -116,7 +141,7 @@ public class AddMeetingActivity extends AppCompatActivity {
                             "\nDate : " + retrieveDate() +
                             "\nHeure : " + retrieveTime() +
                             "\nLieu de réunion : " + meetingRooms.get(mSpinner.getSelectedItemPosition()) +
-                            "\nParticipants : " + mailEditText.getText().toString()
+                            "\nParticipants : " + mailString()
                     )
                     .setCancelable(false)
                     .setPositiveButton("Confirmer réunion", new DialogInterface.OnClickListener() {
@@ -143,6 +168,23 @@ public class AddMeetingActivity extends AppCompatActivity {
         }
     }
 
+    public String mailString(){
+
+        String mailString2 = "";
+        String mailString3 = "";
+
+        String mailString1 = mailEditText.getText().toString();
+        if (mailEditText2.isShown()){
+            mailString2 = ", " + mailEditText2.getText().toString();
+        }
+        if (mailEditText3.isShown()){
+            mailString3 =", " + mailEditText3.getText().toString();
+        }
+
+        String mailString = mailString1 + mailString2 + mailString3;
+        return mailString;
+    }
+
     public static void navigate(Activity activity) {
         Intent intent = new Intent(activity, AddMeetingActivity.class);
         ActivityCompat.startActivity(activity, intent, null);
@@ -153,7 +195,7 @@ public class AddMeetingActivity extends AppCompatActivity {
                 retrieveTime(),
                 retrieveDate(),
                 topicEditText.getText().toString(),
-                mailEditText.getText().toString(),
+                mailString(),
                 meetingRooms.get(mSpinner.getSelectedItemPosition())
         );
         mMeetingApiService.addMeeting(meeting);

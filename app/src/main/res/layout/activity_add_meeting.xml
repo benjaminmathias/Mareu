@@ -56,8 +56,7 @@
                     android:layout_marginTop="16dp"
                     android:layout_marginEnd="16dp"
                     android:hint="@string/topic_edit_text_hint"
-                    android:maxLength="20"
-                    />
+                    android:maxLength="20" />
 
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -136,17 +135,102 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/room_spinner" />
 
-            <EditText
-                android:id="@+id/mail_edit_text"
+            <androidx.core.widget.NestedScrollView
+                android:id="@+id/mail_scroll_view"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
+                app:layout_constraintBottom_toTopOf="@id/confirm_button"
+                app:layout_constraintEnd_toEndOf="@id/add_meeting_layout"
+                app:layout_constraintHorizontal_bias="1.0"
+                app:layout_constraintStart_toStartOf="@id/add_meeting_layout"
+                app:layout_constraintTop_toBottomOf="@id/add_ppl_text_view"
+                app:layout_constraintVertical_bias="1.0"
                 android:layout_marginTop="16dp"
-                android:layout_marginEnd="16dp"
-                android:hint="@string/mail_edit_text_hint"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/add_ppl_text_view" />
+                android:layout_marginBottom="16dp">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/mail_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center">
+
+                    <EditText
+                        android:id="@+id/mail_edit_text"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginTop="16dp"
+                        android:layout_marginEnd="16dp"
+                        android:hint="@string/mail_edit_text_hint"
+                        app:layout_constraintEnd_toEndOf="@id/add_ppl_img"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="@id/mail_layout" />
+
+                    <ImageButton
+                        android:id="@+id/add_ppl_img"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="16dp"
+                        android:background="@color/white"
+                        app:srcCompat="@drawable/ic_baseline_person_add"
+                        app:layout_constraintEnd_toEndOf="@id/mail_layout"
+                        app:layout_constraintStart_toEndOf="@id/mail_edit_text"
+                        app:layout_constraintTop_toTopOf="@id/mail_edit_text"/>
+
+                    <EditText
+                        android:id="@+id/mail_edit_text2"
+                        android:visibility="gone"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginTop="16dp"
+                        android:layout_marginEnd="16dp"
+                        android:hint="@string/mail_edit_text_hint"
+                        app:layout_constraintEnd_toEndOf="@id/add_ppl_img2"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/mail_edit_text" />
+
+                    <ImageButton
+                        android:id="@+id/add_ppl_img2"
+                        android:visibility="gone"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="16dp"
+                        android:background="@color/white"
+                        app:srcCompat="@drawable/ic_baseline_person_add"
+                        app:layout_constraintEnd_toEndOf="@id/mail_layout"
+                        app:layout_constraintStart_toEndOf="@id/mail_edit_text2"
+                        app:layout_constraintTop_toTopOf="@id/mail_edit_text2"/>
+
+                    <EditText
+                        android:id="@+id/mail_edit_text3"
+                        android:visibility="gone"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginTop="16dp"
+                        android:layout_marginEnd="16dp"
+                        android:hint="@string/mail_edit_text_hint"
+                        app:layout_constraintEnd_toEndOf="@id/add_ppl_img3"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/mail_edit_text2" />
+
+                    <ImageButton
+                        android:id="@+id/add_ppl_img3"
+                        android:visibility="gone"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="16dp"
+                        android:background="@color/white"
+                        app:srcCompat="@drawable/ic_baseline_person_add"
+                        app:layout_constraintEnd_toEndOf="@id/mail_layout"
+                        app:layout_constraintStart_toEndOf="@id/mail_edit_text3"
+                        app:layout_constraintTop_toTopOf="@id/mail_edit_text3"/>
+
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+            </androidx.core.widget.NestedScrollView>
 
 
             <Button
@@ -155,9 +239,9 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
                 android:text="Confirmer"
-                app:layout_constraintEnd_toEndOf="@id/mail_edit_text"
-                app:layout_constraintStart_toStartOf="@id/mail_edit_text"
-                app:layout_constraintTop_toBottomOf="@id/mail_edit_text" />
+                app:layout_constraintEnd_toEndOf="@id/mail_scroll_view"
+                app:layout_constraintStart_toStartOf="@id/mail_scroll_view"
+                app:layout_constraintTop_toBottomOf="@id/mail_scroll_view" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.core.widget.NestedScrollView>
